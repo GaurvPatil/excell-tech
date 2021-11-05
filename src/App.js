@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import EmployeeCard from "./Components/EmployeeCard";
+import Loading from "./Components/Loading";
 
 function App() {
+  const url = "https://jsonplaceholder.typicode.com/users";
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // fetching data
+  const fetching = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(url);
+      const employeData = await response.json();
+      setLoading(false);
+      setData(employeData);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  // call fetching function //first render()
+  useEffect(() => {
+    fetching();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <EmployeeCard data={data} />
+    </>
   );
 }
 
