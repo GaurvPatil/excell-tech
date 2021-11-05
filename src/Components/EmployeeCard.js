@@ -34,11 +34,7 @@ const EmployeeCard = ({ data }) => {
           m-8
           "
           >
-            <div
-              className="
-           
-            "
-            >
+            <div>
               <img
                 src={imgSrc}
                 alt={name}
